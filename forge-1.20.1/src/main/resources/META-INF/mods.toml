@@ -17,21 +17,21 @@ in the Precision Sawmill exactly like vanilla woods. Recipes only, by design.
 
 [[dependencies.ars_mekanica]]
 modId="forge"
-type="required"
+mandatory=true
 versionRange="[47,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.ars_mekanica]]
 modId="ars_nouveau"
-type="required"
+mandatory=true
 versionRange="[4.0,)"
 ordering="AFTER"
 side="BOTH"
 
 [[dependencies.ars_mekanica]]
 modId="mekanism"
-type="required"
+mandatory=true
 versionRange="[10.4,)"
 ordering="AFTER"
 side="BOTH"
