@@ -1,0 +1,49 @@
+subprojects {
+    apply plugin: "base"
+
+    version = modVersion
+    group = "com.meigoc.arsmekanica"
+
+    def resourceDir = file("src/main/resources")
+
+    tasks.register("processMeta", Copy) {
+        from(resourceDir) {
+            include "META-INF/*.toml"
+            expand(version: modVersion)
+        }
+        into layout.buildDirectory.dir("resources/meta")
+    }
+
+    tasks.register("modJar", Jar) {
+        dependsOn("processMeta")
+        archiveBaseName.set("ars-mekanica")
+        archiveClassifier.set(project.name)
+
+        from(resourceDir) {
+            exclude "META-INF/*.toml"
+        }
+        from(layout.buildDirectory.dir("resources/meta"))
+
+        destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
+    }
+
+    tasks.named("build").configure {
+        dependsOn("modJar")
+    }
+}
+
+def datapackZip(String mc) {
+    return tasks.register("datapack_${mc.replace('.', '_')}", Zip) {
+        archiveBaseName.set("ars-mekanica-datapack")
+        archiveVersion.set(modVersion)
+        archiveClassifier.set(mc)
+        from("datapack/ars-mekanica-datapack-${mc}")
+        destinationDirectory.set(layout.buildDirectory.dir("libs"))
+    }
+}
+def dp121 = datapackZip("1.21.1")
+def dp120 = datapackZip("1.20.1")
+
+tasks.register("assembleAll") {
+    dependsOn(":neoforge-1.21.1:modJar", ":forge-1.20.1:modJar", dp121, dp120)
+}

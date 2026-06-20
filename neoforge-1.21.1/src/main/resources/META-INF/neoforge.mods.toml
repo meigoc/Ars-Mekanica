@@ -1,0 +1,37 @@
+modLoader="lowcodefml"
+loaderVersion="[4,)"
+license="LGPL-2.1-only"
+issueTrackerURL="https://github.com/meigoc/Ars-Mekanica/issues"
+
+[[mods]]
+modId="ars_mekanica"
+version="${version}"
+displayName="Ars Mekanica"
+authors="meigoc"
+logoFile="icon.png"
+description='''
+Recipe bridge between Ars Nouveau and Mekanism. Adds the sawing recipes Mekanism
+is missing for Ars Nouveau's archwood, so archwood logs and wooden items process
+in the Precision Sawmill exactly like vanilla woods. Recipes only, by design.
+'''
+
+[[dependencies.ars_mekanica]]
+modId="neoforge"
+type="required"
+versionRange="[21.1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.ars_mekanica]]
+modId="ars_nouveau"
+type="required"
+versionRange="[5.0,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.ars_mekanica]]
+modId="mekanism"
+type="required"
+versionRange="[10.7,)"
+ordering="AFTER"
+side="BOTH"

@@ -1,0 +1,17 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "ingredient": {
+      "item": "ars_nouveau:archwood_stairs"
+    }
+  },
+  "mainOutput": {
+    "count": 1,
+    "item": "ars_nouveau:archwood_planks"
+  },
+  "secondaryChance": 0.25,
+  "secondaryOutput": {
+    "count": 1,
+    "item": "mekanism:sawdust"
+  }
+}

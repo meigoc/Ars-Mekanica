@@ -1,0 +1,11 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "item": "ars_nouveau:archwood_chest",
+    "count": 1
+  },
+  "main_output": {
+    "count": 8,
+    "id": "ars_nouveau:archwood_planks"
+  }
+}

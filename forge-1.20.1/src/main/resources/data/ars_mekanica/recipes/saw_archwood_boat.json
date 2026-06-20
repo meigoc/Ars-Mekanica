@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "ingredient": {
+      "item": "ars_nouveau:archwood_boat"
+    }
+  },
+  "mainOutput": {
+    "count": 5,
+    "item": "ars_nouveau:archwood_planks"
+  }
+}

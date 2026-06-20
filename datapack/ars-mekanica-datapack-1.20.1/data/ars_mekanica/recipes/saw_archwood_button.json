@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "ingredient": {
+      "item": "ars_nouveau:archwood_button"
+    }
+  },
+  "mainOutput": {
+    "count": 1,
+    "item": "ars_nouveau:archwood_planks"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "ingredient": {
+      "item": "ars_nouveau:archwood_hanging_sign"
+    }
+  },
+  "mainOutput": {
+    "count": 2,
+    "item": "ars_nouveau:archwood_planks"
+  },
+  "secondaryChance": 0.5,
+  "secondaryOutput": {
+    "count": 1,
+    "item": "mekanism:sawdust"
+  }
+}

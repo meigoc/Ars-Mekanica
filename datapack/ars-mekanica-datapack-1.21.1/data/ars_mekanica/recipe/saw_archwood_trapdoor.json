@@ -1,0 +1,11 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "item": "ars_nouveau:archwood_trapdoor",
+    "count": 1
+  },
+  "main_output": {
+    "count": 3,
+    "id": "ars_nouveau:archwood_planks"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "mekanism:sawing",
+  "input": {
+    "ingredient": {
+      "tag": "forge:logs/archwood"
+    }
+  },
+  "mainOutput": {
+    "count": 6,
+    "item": "ars_nouveau:archwood_planks"
+  },
+  "secondaryChance": 0.25,
+  "secondaryOutput": {
+    "count": 1,
+    "item": "mekanism:sawdust"
+  }
+}
