@@ -16,3 +16,6 @@ out/
 *.log
 hs_err_pid*
 replay_pid*
+
+# CurseForge store asset, not part of the mod
+avatar.png
