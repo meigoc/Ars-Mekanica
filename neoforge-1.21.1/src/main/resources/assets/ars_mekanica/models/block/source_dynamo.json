@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "ars_mekanica:block/source_dynamo/front",
+    "north": "ars_mekanica:block/source_dynamo/front",
+    "south": "ars_mekanica:block/source_dynamo/back",
+    "east": "ars_mekanica:block/source_dynamo/side",
+    "west": "ars_mekanica:block/source_dynamo/side",
+    "up": "ars_mekanica:block/source_dynamo/top",
+    "down": "ars_mekanica:block/source_dynamo/bottom"
+  }
+}

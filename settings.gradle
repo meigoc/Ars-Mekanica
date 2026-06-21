@@ -1,4 +1,0 @@
-rootProject.name = "ars-mekanica"
-
-include("neoforge-1.21.1")
-include("forge-1.20.1")

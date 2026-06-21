@@ -1,0 +1,30 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+version = providers.gradleProperty('modVersion').get()
+group = 'com.meigoc.arsmekanica'
+
+base {
+    archivesName = 'ars-mekanica-neoforge-1.21.1'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = providers.gradleProperty('neoforgeVersion').get()
+
+    mods {
+        ars_mekanica {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    def props = [version: project.version]
+    inputs.properties(props)
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand(props)
+    }
+}
