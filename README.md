@@ -1,8 +1,15 @@
-# Ars Mekanica
+<div align="center">
+  <img src="icon.png" width="128" alt="Ars Mekanica icon">
 
-<img src="icon.png" width="128" alt="Ars Mekanica icon">
+  <h3>Ars Mekanica</h3>
 
-A small compatibility addon that bridges **Ars Nouveau** and **Mekanism**.
+  A small compatibility addon that bridges **Ars Nouveau** and **Mekanism**.
+
+  [![Ars Mekanica](https://modfolio.creeperkatze.dev/curseforge/project/1582905/downloads)](https://www.curseforge.com/minecraft/mc-mods/ars-mekanica)
+  [![Ars Mekanica](https://modfolio.creeperkatze.dev/modrinth/project/ars-mekanica/downloads)](https://modrinth.com/datapack/ars-mekanica)
+</div>
+
+---
 
 Ars Nouveau's archwood comes with a full set of wooden items, but Mekanism ships
 no sawmill recipes for it — so archwood logs are a dead end in a Mekanism setup.
@@ -23,8 +30,8 @@ Precision Sawmill recipes for archwood, mirroring Mekanism's vanilla wood ratios
 
 Both mods must be installed. Ars Mekanica does nothing on its own.
 
-| Minecraft | Loader            | Download                          |
-|-----------|-------------------|-----------------------------------|
+| Minecraft | Loader            | Download                             |
+|-----------|-------------------|---------------------------------------|
 | 1.21.1    | NeoForge          | `ars-mekanica-*-neoforge-1.21.1.jar` |
 | 1.20.1    | Forge / NeoForge  | `ars-mekanica-*-forge-1.20.1.jar`    |
 
@@ -38,4 +45,4 @@ deeper Source ↔ Mekanism energy/chemical integration. Nothing promised yet.
 
 ## License
 
-[LGPL-2.1-only](LICENSE).
+[LGPL-2.1-only](LICENSE)
