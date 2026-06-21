@@ -49,5 +49,5 @@ jobs:
           name: Ars Mekanica ${{ steps.ver.outputs.version }}
           make_latest: true
           files: |
-            build/libs/*.jar
-            build/libs/*.zip
+            build/libs/ars-mekanica-*-forge-1.20.1.jar
+            build/libs/ars-mekanica-datapack-*.zip
