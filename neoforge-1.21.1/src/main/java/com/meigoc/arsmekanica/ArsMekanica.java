@@ -2,8 +2,8 @@ package com.meigoc.arsmekanica;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -35,7 +35,7 @@ public class ArsMekanica {
                     .sound(SoundType.METAL)
                     .requiresCorrectToolForDrops());
 
-    public static final DeferredItem<Item> SOURCE_DYNAMO_ITEM =
+    public static final DeferredItem<BlockItem> SOURCE_DYNAMO_ITEM =
             ITEMS.registerSimpleBlockItem(SOURCE_DYNAMO);
 
     public static final Supplier<CreativeModeTab> TAB = TABS.register("main", () -> CreativeModeTab.builder()
