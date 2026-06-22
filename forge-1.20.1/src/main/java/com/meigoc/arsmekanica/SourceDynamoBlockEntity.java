@@ -31,6 +31,11 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
         setMaxSource(SOURCE_CAPACITY);
     }
 
+    @Override
+    public int getTransferRate() {
+        return PULL_PER_TICK;
+    }
+
     public void serverTick() {
         if (level == null) {
             return;
