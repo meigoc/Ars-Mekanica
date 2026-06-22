@@ -35,9 +35,11 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
             return;
         }
 
-        int need = Math.min(Config.SOURCE_PER_TICK.get(), getMaxSource() - getSource());
+        int perTick = Config.SOURCE_PER_TICK.get();
+
+        int need = Math.min(perTick, getMaxSource() - getSource());
         if (need > 0) {
-            for (ISpecialSourceProvider provider : SourceUtil.canGiveSource(worldPosition, level, Config.PULL_RANGE.get())) {
+            for (ISpecialSourceProvider provider : SourceUtil.canTakeSource(worldPosition, level, Config.PULL_RANGE.get())) {
                 if (need <= 0) {
                     break;
                 }
@@ -48,7 +50,7 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
         int room = energy.getMaxEnergyStored() - energy.getEnergyStored();
         int rate = Config.SOURCE_TO_FE.get();
         if (getSource() > 0 && room >= rate) {
-            int convertible = Math.min(getSource(), room / rate);
+            int convertible = Math.min(perTick, Math.min(getSource(), room / rate));
             if (convertible > 0) {
                 int removed = removeSource(convertible);
                 energy.generate(removed * rate);
