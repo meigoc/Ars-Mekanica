@@ -7,10 +7,14 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -23,6 +27,8 @@ public class ArsMekanica {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
+            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
     public static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -38,6 +44,10 @@ public class ArsMekanica {
     public static final DeferredItem<BlockItem> SOURCE_DYNAMO_ITEM =
             ITEMS.registerSimpleBlockItem(SOURCE_DYNAMO);
 
+    public static final Supplier<BlockEntityType<SourceDynamoBlockEntity>> SOURCE_DYNAMO_BE =
+            BLOCK_ENTITIES.register("source_dynamo",
+                    () -> BlockEntityType.Builder.of(SourceDynamoBlockEntity::new, SOURCE_DYNAMO.get()).build(null));
+
     public static final Supplier<CreativeModeTab> TAB = TABS.register("main", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup." + MODID))
             .icon(() -> new ItemStack(SOURCE_DYNAMO_ITEM.get()))
@@ -47,6 +57,16 @@ public class ArsMekanica {
     public ArsMekanica(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
         TABS.register(modEventBus);
+        modEventBus.addListener(this::registerCapabilities);
+        NeoForge.EVENT_BUS.addListener(ArsMekanicaDocs::onAddEntries);
+    }
+
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.EnergyStorage.BLOCK,
+                SOURCE_DYNAMO_BE.get(),
+                (be, side) -> be.getEnergyStorage());
     }
 }

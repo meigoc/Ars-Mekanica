@@ -21,6 +21,16 @@ neoForge {
     }
 }
 
+repositories {
+    maven { url = 'https://maven.blamejared.com' }
+}
+
+dependencies {
+    compileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${providers.gradleProperty('arsVersion').get()}") {
+        transitive = false
+    }
+}
+
 tasks.named('processResources', ProcessResources).configure {
     def props = [version: project.version]
     inputs.properties(props)
