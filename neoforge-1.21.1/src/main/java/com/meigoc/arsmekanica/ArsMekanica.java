@@ -11,7 +11,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -54,13 +56,14 @@ public class ArsMekanica {
             .displayItems((params, output) -> output.accept(SOURCE_DYNAMO_ITEM.get()))
             .build());
 
-    public ArsMekanica(IEventBus modEventBus) {
+    public ArsMekanica(IEventBus modEventBus, ModContainer modContainer) {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
         TABS.register(modEventBus);
         modEventBus.addListener(this::registerCapabilities);
         NeoForge.EVENT_BUS.addListener(ArsMekanicaDocs::onAddEntries);
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {

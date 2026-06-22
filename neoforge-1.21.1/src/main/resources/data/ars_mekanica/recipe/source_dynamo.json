@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "ars_nouveau" },
+    { "type": "neoforge:mod_loaded", "modid": "mekanism" }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SES",
+    "CKC",
+    "SGS"
+  ],
+  "key": {
+    "S": { "item": "ars_nouveau:source_gem" },
+    "E": { "item": "mekanism:energy_tablet" },
+    "C": { "item": "mekanism:basic_universal_cable" },
+    "K": { "item": "mekanism:steel_casing" },
+    "G": { "item": "ars_nouveau:source_gem_block" }
+  },
+  "result": { "count": 1, "id": "ars_mekanica:source_dynamo" }
+}

@@ -1,6 +1,7 @@
 package com.meigoc.arsmekanica;
 
 import com.hollingsworth.arsnouveau.api.source.AbstractSourceMachine;
+import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,25 +16,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SourceDynamoBlockEntity extends AbstractSourceMachine {
-    public static final int SOURCE_CAPACITY = 10000;
-    public static final int ENERGY_CAPACITY = 1_000_000;
-    public static final int SOURCE_TO_FE = 16;
-    public static final int PULL_PER_TICK = 100;
-    public static final int CONVERT_SOURCE_PER_TICK = 100;
-    public static final int MAX_EXTRACT = 2000;
-    public static final int RANGE = 5;
-
-    private final GeneratorEnergyStorage energy = new GeneratorEnergyStorage(ENERGY_CAPACITY, MAX_EXTRACT);
+    private final GeneratorEnergyStorage energy =
+            new GeneratorEnergyStorage(Config.ENERGY_CAPACITY.get(), Config.MAX_TRANSFER.get());
     private final LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> energy);
 
     public SourceDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ArsMekanica.SOURCE_DYNAMO_BE.get(), pos, state);
-        setMaxSource(SOURCE_CAPACITY);
+        setMaxSource(Config.SOURCE_CAPACITY.get());
     }
 
     @Override
     public int getTransferRate() {
-        return PULL_PER_TICK;
+        return Config.SOURCE_PER_TICK.get();
     }
 
     public void serverTick() {
@@ -41,19 +35,23 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
             return;
         }
 
-        if (getSource() < getMaxSource()) {
-            int need = Math.min(PULL_PER_TICK, getMaxSource() - getSource());
-            if (need > 0 && SourceUtil.takeSource(worldPosition, level, RANGE, need) != null) {
-                addSource(need);
+        int need = Math.min(Config.SOURCE_PER_TICK.get(), getMaxSource() - getSource());
+        if (need > 0) {
+            for (ISpecialSourceProvider provider : SourceUtil.canGiveSource(worldPosition, level, Config.PULL_RANGE.get())) {
+                if (need <= 0) {
+                    break;
+                }
+                need -= transferSource(provider.getSource(), this, need);
             }
         }
 
         int room = energy.getMaxEnergyStored() - energy.getEnergyStored();
-        if (getSource() > 0 && room > 0) {
-            int convertible = Math.min(CONVERT_SOURCE_PER_TICK, Math.min(getSource(), room / SOURCE_TO_FE));
+        int rate = Config.SOURCE_TO_FE.get();
+        if (getSource() > 0 && room >= rate) {
+            int convertible = Math.min(getSource(), room / rate);
             if (convertible > 0) {
-                removeSource(convertible);
-                energy.generate(convertible * SOURCE_TO_FE);
+                int removed = removeSource(convertible);
+                energy.generate(removed * rate);
             }
         }
 
@@ -76,7 +74,7 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
             if (handler == null || !handler.canReceive()) {
                 continue;
             }
-            int toSend = Math.min(MAX_EXTRACT, energy.getEnergyStored());
+            int toSend = Math.min(Config.MAX_TRANSFER.get(), energy.getEnergyStored());
             int sent = handler.receiveEnergy(toSend, false);
             if (sent > 0) {
                 energy.extractEnergy(sent, false);
