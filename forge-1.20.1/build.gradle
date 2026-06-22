@@ -16,8 +16,15 @@ minecraft {
     mappings channel: 'official', version: '1.20.1'
 }
 
+repositories {
+    maven { url = 'https://maven.blamejared.com' }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${providers.gradleProperty('forgeVersion').get()}"
+    implementation(fg.deobf("com.hollingsworth.ars_nouveau:ars_nouveau-1.20.1:${providers.gradleProperty('arsVersion').get()}")) {
+        transitive = false
+    }
 }
 
 tasks.named('processResources', ProcessResources).configure {

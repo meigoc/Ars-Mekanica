@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,6 +24,8 @@ public class ArsMekanica {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
     public static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -36,6 +39,10 @@ public class ArsMekanica {
     public static final RegistryObject<Item> SOURCE_DYNAMO_ITEM = ITEMS.register("source_dynamo",
             () -> new BlockItem(SOURCE_DYNAMO.get(), new Item.Properties()));
 
+    public static final RegistryObject<BlockEntityType<SourceDynamoBlockEntity>> SOURCE_DYNAMO_BE =
+            BLOCK_ENTITIES.register("source_dynamo",
+                    () -> BlockEntityType.Builder.of(SourceDynamoBlockEntity::new, SOURCE_DYNAMO.get()).build(null));
+
     public static final RegistryObject<CreativeModeTab> TAB = TABS.register("main",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup." + MODID))
@@ -47,6 +54,7 @@ public class ArsMekanica {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
         TABS.register(modEventBus);
     }
 }
