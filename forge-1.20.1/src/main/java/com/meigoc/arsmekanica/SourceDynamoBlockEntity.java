@@ -1,11 +1,11 @@
 package com.meigoc.arsmekanica;
 
-import com.hollingsworth.arsnouveau.api.source.AbstractSourceMachine;
-import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
+import com.hollingsworth.arsnouveau.api.source.ISourceTile;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -15,19 +15,13 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SourceDynamoBlockEntity extends AbstractSourceMachine {
+public class SourceDynamoBlockEntity extends BlockEntity {
     private final GeneratorEnergyStorage energy =
             new GeneratorEnergyStorage(Config.ENERGY_CAPACITY.get(), Config.MAX_TRANSFER.get());
     private final LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> energy);
 
     public SourceDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ArsMekanica.SOURCE_DYNAMO_BE.get(), pos, state);
-        setMaxSource(Config.SOURCE_CAPACITY.get());
-    }
-
-    @Override
-    public int getTransferRate() {
-        return Config.SOURCE_PER_TICK.get();
     }
 
     public void serverTick() {
@@ -36,26 +30,28 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
         }
 
         int perTick = Config.SOURCE_PER_TICK.get();
+        int rate = Config.SOURCE_TO_FE.get();
+        int room = energy.getMaxEnergyStored() - energy.getEnergyStored();
 
-        int need = Math.min(perTick, getMaxSource() - getSource());
-        if (need > 0) {
-            for (ISpecialSourceProvider provider : SourceUtil.canTakeSource(worldPosition, level, Config.PULL_RANGE.get())) {
-                if (need <= 0) {
-                    break;
-                }
-                need -= transferSource(provider.getSource(), this, need);
-            }
+        if (room < rate) {
+            pushEnergy();
+            return;
         }
 
-        int room = energy.getMaxEnergyStored() - energy.getEnergyStored();
-        int rate = Config.SOURCE_TO_FE.get();
-        if (getSource() > 0 && room >= rate) {
-            int convertible = Math.min(perTick, Math.min(getSource(), room / rate));
-            if (convertible > 0) {
-                int before = getSource();
-                removeSource(convertible);
-                int consumed = before - getSource();
-                energy.generate(consumed * rate);
+        int stillNeed = Math.min(perTick, room / rate);
+
+        for (var provider : SourceUtil.canTakeSource(worldPosition, level, Config.PULL_RANGE.get())) {
+            ISourceTile jar = provider.getSource();
+            int available = jar.getSource();
+            if (available <= 0) {
+                continue;
+            }
+            int drawn = Math.min(stillNeed, available);
+            jar.removeSource(drawn);
+            energy.generate(drawn * rate);
+            stillNeed -= drawn;
+            if (stillNeed <= 0) {
+                break;
             }
         }
 
