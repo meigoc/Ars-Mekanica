@@ -13,18 +13,15 @@
 
 Ars Nouveau's archwood comes with a full set of wooden items, but Mekanism ships
 no sawmill recipes for it - so archwood logs are a dead end in a Mekanism setup.
-Ars Mekanica adds the missing **Precision Sawmill** recipes so archwood behaves
-exactly like vanilla wood.
-
-This addon adds **recipes only**, by design.
-
 ## What it adds
 
-Precision Sawmill recipes for archwood, mirroring Mekanism's vanilla wood ratios:
+**Precision Sawmill recipes** for archwood, mirroring Mekanism's vanilla wood ratios:
 
 - Archwood logs / wood / stripped variants -> archwood planks (+ sawdust)
 - Archwood doors, trapdoors, fences, fence gates, pressure plates, buttons,
   slabs, stairs, signs, hanging signs, boats and chests -> archwood planks
+
+**Source Dynamo** — a block that converts Ars Nouveau Source into Forge Energy for Mekanism machines. Place it between a Source Jar and a power consumer; every balance value is configurable.
 
 ## Requirements
 
@@ -40,8 +37,8 @@ Prefer not to install another mod? Use the standalone **datapack** build
 
 ## TODO / future
 
-Depending on interest, later versions may go beyond recipes - for example some
-deeper Source <-> Mekanism energy/chemical integration. Nothing promised yet.
+Depending on interest, later versions may add deeper Source <-> Mekanism
+chemical integration or other cross-mod compat. Nothing promised yet.
 
 ## License
 
