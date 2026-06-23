@@ -84,4 +84,3 @@ jobs:
           make_latest: ${{ !contains(github.ref_name, 'beta') }}
           files: |
             dist/**/*.jar
-            dist/**/*.zip
