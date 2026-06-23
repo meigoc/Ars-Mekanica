@@ -52,12 +52,15 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
         if (getSource() > 0 && room >= rate) {
             int convertible = Math.min(perTick, Math.min(getSource(), room / rate));
             if (convertible > 0) {
-                int removed = removeSource(convertible);
-                energy.generate(removed * rate);
+                int before = getSource();
+                removeSource(convertible);
+                int consumed = before - getSource();
+                energy.generate(consumed * rate);
             }
         }
 
         pushEnergy();
+        setChanged();
     }
 
     private void pushEnergy() {
@@ -73,11 +76,15 @@ public class SourceDynamoBlockEntity extends AbstractSourceMachine {
                 continue;
             }
             IEnergyStorage handler = neighbor.getCapability(ForgeCapabilities.ENERGY, dir.getOpposite()).orElse(null);
-            if (handler == null || !handler.canReceive()) {
+            if (handler == null) {
                 continue;
             }
             int toSend = Math.min(Config.MAX_TRANSFER.get(), energy.getEnergyStored());
-            int sent = handler.receiveEnergy(toSend, false);
+            int accepted = handler.receiveEnergy(toSend, true);
+            if (accepted <= 0) {
+                continue;
+            }
+            int sent = handler.receiveEnergy(accepted, false);
             if (sent > 0) {
                 energy.extractEnergy(sent, false);
             }
